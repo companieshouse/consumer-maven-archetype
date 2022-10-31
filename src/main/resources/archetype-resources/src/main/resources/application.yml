@@ -1,0 +1,38 @@
+server:
+  port: ${SERVER_PORT}
+
+spring:
+  kafka:
+    bootstrap-servers: ${BOOTSTRAP_SERVER_URL}
+
+consumer:
+  group_id: ${GROUP_ID}
+  max_attempts: ${MAX_ATTEMPTS}
+  backoff_delay: ${BACKOFF_DELAY}
+  concurrency: ${CONCURRENT_LISTENER_INSTANCES}
+
+error_consumer:
+  group_id: ${ERROR_GROUP_ID}
+  enabled: ${IS_ERROR_CONSUMER}
+  concurrency: ${CONCURRENT_ERROR_LISTENER_INSTANCES}
+
+topic:
+  main: ${TOPIC}
+  retry: ${RETRY_TOPIC}
+  error: ${ERROR_TOPIC}
+  invalid: ${INVALID_TOPIC}
+
+logger:
+  namespace: ${artifactId}
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      base-path: /${artifactId}
+      path-mapping:
+        health: healthcheck
+  endpoint:
+    health:
+      show-details: never
+      enabled: true
