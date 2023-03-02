@@ -256,7 +256,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>src/feature/java</source>
+                                <source>src/itest/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -269,7 +269,7 @@
                         <configuration>
                             <resources>
                                 <resource>
-                                    <directory>src/feature/resources</directory>
+                                    <directory>src/itest/resources</directory>
                                     <includes>
                                         <include>**/*</include>
                                     </includes>
