@@ -15,11 +15,12 @@ public class InvalidMessageRouter implements ProducerInterceptor<String, String>
     private String invalidMessageTopic;
 
     @Override
-    public ProducerRecord<String, String> onSend(ProducerRecord<String, String> record) {
+    public ProducerRecord<String, String> onSend(ProducerRecord<String, String> producerRecord) {
         if (messageFlags.isRetryable()) {
-            return record;
+            messageFlags.destroy();
+            return producerRecord;
         } else {
-            return new ProducerRecord<>(this.invalidMessageTopic, record.key(), record.value());
+            return new ProducerRecord<>(this.invalidMessageTopic, producerRecord.key(), producerRecord.value());
         }
     }
 
@@ -34,6 +35,6 @@ public class InvalidMessageRouter implements ProducerInterceptor<String, String>
     @Override
     public void configure(Map<String, ?> configs) {
         this.messageFlags = (MessageFlags) configs.get("message.flags");
-        this.invalidMessageTopic = (String) configs.get("topic.invalid");
+        this.invalidMessageTopic = (String) configs.get("invalid.message.topic");
     }
 }

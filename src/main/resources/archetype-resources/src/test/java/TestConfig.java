@@ -36,7 +36,7 @@ public class TestConfig {
 
     @Bean
     KafkaProducer<String, String> testProducer(@Value("${spring.kafka.bootstrap-servers}") String bootstrapServers) {
-        return new KafkaProducer<>(new HashMap<String, Object>() {{
+        return new KafkaProducer<>(new HashMap<>() {{
             put(ProducerConfig.ACKS_CONFIG, "all");
             put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         }}, new StringSerializer(), new StringSerializer());

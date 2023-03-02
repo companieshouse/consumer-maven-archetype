@@ -10,7 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest
 @CucumberContextConfiguration
 @AutoConfigureMockMvc
-@ActiveProfiles("test_main")
+@ActiveProfiles("test_main_positive")
 @EmbeddedKafka
 @Import(TestConfig.class)
 public class Configuration {

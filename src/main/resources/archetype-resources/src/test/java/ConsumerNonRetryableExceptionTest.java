@@ -16,7 +16,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
-import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -34,10 +33,10 @@ import static org.mockito.Mockito.verify;
         controlledShutdown = true,
         partitions = 1
 )
-@TestPropertySource(locations = "classpath:application-test_main.yml")
+@TestPropertySource(locations = "classpath:application-test_main_nonretryable.yml")
 @Import(TestConfig.class)
-@ActiveProfiles("test_main")
-public class ConsumerNonRetryableExceptionTest {
+@ActiveProfiles("test_main_nonretryable")
+class ConsumerNonRetryableExceptionTest {
 
     @Autowired
     private EmbeddedKafkaBroker embeddedKafkaBroker;
@@ -55,7 +54,7 @@ public class ConsumerNonRetryableExceptionTest {
     private Service service;
 
     @Test
-    void testRepublishToInvalidMessageTopicIfNonRetryableExceptionThrown() throws InterruptedException, IOException {
+    void testRepublishToInvalidMessageTopicIfNonRetryableExceptionThrown() throws InterruptedException {
         //given
         embeddedKafkaBroker.consumeFromAllEmbeddedTopics(testConsumer);
         doThrow(NonRetryableException.class).when(service).processMessage(any());

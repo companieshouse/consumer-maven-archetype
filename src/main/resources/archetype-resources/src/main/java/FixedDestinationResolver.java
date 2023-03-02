@@ -13,7 +13,7 @@ public class FixedDestinationResolver {
 
     private final String topic;
 
-    public FixedDestinationResolver(@Value("${topic.retry}") String topic) {
+    public FixedDestinationResolver(@Value("${error_consumer.dlt}") String topic) {
         this.topic = topic;
     }
 
