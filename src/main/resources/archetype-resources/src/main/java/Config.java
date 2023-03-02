@@ -1,4 +1,4 @@
-package $
+package ${package};
 
 import java.util.Map;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
