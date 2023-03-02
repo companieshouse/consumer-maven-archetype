@@ -44,7 +44,7 @@ class ConsumerInvalidTopicTest {
     private KafkaProducer<String, String> testProducer;
 
     @Test
-    void testPublishToInvalidMessageTopicIfInvalidDataDeserialised() throws InterruptedException, IOException, ExecutionException {
+    void testPublishToInvalidMessageTopicIfInvalidDataDeserialised() throws InterruptedException, ExecutionException {
         //given
         embeddedKafkaBroker.consumeFromAllEmbeddedTopics(testConsumer);
 

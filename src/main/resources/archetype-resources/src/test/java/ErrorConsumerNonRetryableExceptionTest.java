@@ -55,7 +55,7 @@ class ErrorConsumerNonRetryableExceptionTest {
     private Service service;
 
     @Test
-    void testRepublishToInvalidMessageTopicIfNonRetryableExceptionThrown() throws InterruptedException, IOException {
+    void testRepublishToInvalidMessageTopicIfNonRetryableExceptionThrown() throws InterruptedException {
         //given
         embeddedKafkaBroker.consumeFromAllEmbeddedTopics(testConsumer);
         doThrow(NonRetryableException.class).when(service).processMessage(any());
