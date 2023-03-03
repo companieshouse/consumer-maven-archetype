@@ -31,13 +31,13 @@
             </includes>
         </fileSet>
         <fileSet filtered="true" packaged="true">
-            <directory>src/feature/java</directory>
+            <directory>src/itest/java</directory>
             <include>
                 <include>**/*.java</include>
             </include>
         </fileSet>
         <fileSet filtered="true">
-            <directory>src/feature/resources</directory>
+            <directory>src/itest/resources</directory>
             <includes>
                 <include>**/*</include>
             </includes>
