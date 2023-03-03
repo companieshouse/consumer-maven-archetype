@@ -55,13 +55,16 @@ public class MessageLoggingAspect {
     }
 
     private void logMessage(String logMessage, Message<?> incomingMessage) {
-        Map<String, Object> logData = new HashMap<>();
-        String topic = (String)incomingMessage.getHeaders().get(KafkaHeaders.RECEIVED_TOPIC);
-        Integer partition = (Integer)incomingMessage.getHeaders().get(KafkaHeaders.RECEIVED_PARTITION_ID);
-        Long offset = (Long)incomingMessage.getHeaders().get(KafkaHeaders.OFFSET);
-        logData.put("topic", topic);
-        logData.put("partition", partition);
-        logData.put("offset", offset);
+        String topic = Optional.ofNullable((String) incomingMessage.getHeaders().get(KafkaHeaders.RECEIVED_TOPIC))
+                .orElse("no topic");
+        Integer partition = Optional.ofNullable((Integer) incomingMessage.getHeaders().get(KafkaHeaders.RECEIVED_PARTITION_ID))
+                .orElse(0);
+        Long offset = Optional.ofNullable((Long) incomingMessage.getHeaders().get(KafkaHeaders.OFFSET))
+                .orElse(0L);
+        Map<String, Object> logData = Map.of(
+                "topic", topic,
+                "partition", partition,
+                "offset", offset);
         LOGGER.debug(logMessage, logData);
     }
 }
