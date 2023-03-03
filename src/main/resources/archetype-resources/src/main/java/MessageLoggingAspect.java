@@ -1,5 +1,7 @@
 package ${package};
 
+import java.util.Map;
+import java.util.Optional;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -9,9 +11,6 @@ import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.logging.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Logs message details before and after it has been processed by
