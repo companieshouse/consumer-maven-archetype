@@ -37,7 +37,7 @@ import static org.mockito.Mockito.verify;
 @TestPropertySource(locations = "classpath:application-test_main_retryable.yml")
 @Import(TestConfig.class)
 @ActiveProfiles("test_main_retryable")
-public class ConsumerRetryableExceptionTest {
+class ConsumerRetryableExceptionTest {
 
     @Autowired
     private EmbeddedKafkaBroker embeddedKafkaBroker;

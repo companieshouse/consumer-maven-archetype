@@ -31,10 +31,10 @@ import static org.mockito.Mockito.verify;
         controlledShutdown = true,
         partitions = 1
 )
-@TestPropertySource(locations = "classpath:application-test_main.yml")
+@TestPropertySource(locations = "classpath:application-test_main_positive.yml")
 @Import(TestConfig.class)
-@ActiveProfiles("test_main")
-public class ConsumerPositiveTest {
+@ActiveProfiles("test_main_positive")
+class ConsumerPositiveTest {
 
     @Autowired
     private EmbeddedKafkaBroker embeddedKafkaBroker;

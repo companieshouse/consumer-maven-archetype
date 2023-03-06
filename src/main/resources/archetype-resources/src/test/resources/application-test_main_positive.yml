@@ -8,21 +8,20 @@ spring:
     bootstrap-servers: ${spring.embedded.kafka.brokers}
 
 consumer:
+  topic: echo
   group_id: echo-consumer
   max_attempts: 5
   backoff_delay: 100
   concurrency: 1
 
 error_consumer:
+  topic: echo-echo-consumer-error
   group_id: echo-error-consumer
-  enabled: true
+  enabled: false
+  dlt: echo-echo-consumer-retry
   concurrency: 1
 
-topic:
-  main: echo
-  retry: echo-echo-consumer-retry
-  error: echo-echo-consumer-error
-  invalid: echo-echo-consumer-invalid
+invalid_message_topic: echo-echo-consumer-invalid
 
 logger:
   namespace: archetype-client

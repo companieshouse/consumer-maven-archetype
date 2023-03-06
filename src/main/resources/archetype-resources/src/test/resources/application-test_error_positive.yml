@@ -17,7 +17,7 @@ consumer:
 error_consumer:
   topic: echo-echo-consumer-error
   group_id: echo-error-consumer
-  enabled: false
+  enabled: true
   dlt: echo-echo-consumer-retry
   concurrency: 1
 
@@ -26,4 +26,4 @@ invalid_message_topic: echo-echo-consumer-invalid
 logger:
   namespace: archetype-client
 
-steps: 5
+steps: 1

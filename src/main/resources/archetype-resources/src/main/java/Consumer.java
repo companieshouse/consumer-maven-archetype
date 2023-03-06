@@ -30,7 +30,7 @@ public class Consumer {
     @KafkaListener(
             id = "${consumer.group_id}",
             containerFactory = "kafkaListenerContainerFactory",
-            topics = "${topic.main}",
+            topics = "${consumer.topic}",
             groupId = "${consumer.group_id}",
             autoStartup = "#{!${error_consumer.enabled}}"
     )

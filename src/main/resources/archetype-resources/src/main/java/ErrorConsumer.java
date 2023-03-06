@@ -1,5 +1,6 @@
 package ${package};
 
+import java.util.Optional;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.TopicPartition;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,21 +57,25 @@ public class ErrorConsumer<T> {
     @KafkaListener(
             id = "${error_consumer.group_id}",
             containerFactory = "kafkaErrorListenerContainerFactory",
-            topics = "${topic.error}",
+            topics = "${error_consumer.topic}",
             groupId = "${error_consumer.group_id}",
             autoStartup = "${error_consumer.enabled}"
     )
     public void consume(Message<String> message, Acknowledgment acknowledgment) {
-        KafkaConsumer<?, ?> consumer = (KafkaConsumer<?, ?>)message.getHeaders().get(KafkaHeaders.CONSUMER);
-        String topic = (String)message.getHeaders().get(KafkaHeaders.RECEIVED_TOPIC);
-        Integer partition = (Integer)message.getHeaders().get(KafkaHeaders.RECEIVED_PARTITION_ID);
-        Long offset = (Long)message.getHeaders().get(KafkaHeaders.OFFSET);
+        KafkaConsumer<?, ?> consumer = Optional.ofNullable((KafkaConsumer<?, ?>) message.getHeaders().get(KafkaHeaders.CONSUMER))
+                .orElseThrow(() -> new NonRetryableException("Missing consumer header"));
+        String topic = (String) message.getHeaders().get(KafkaHeaders.RECEIVED_TOPIC);
+        Integer partition = Optional.ofNullable((Integer) message.getHeaders().get(KafkaHeaders.RECEIVED_PARTITION_ID))
+                .orElseThrow(() -> new NonRetryableException("Missing partition header"));
+        Long offset = Optional.ofNullable((Long) message.getHeaders().get(KafkaHeaders.OFFSET))
+                .orElseThrow(() -> new NonRetryableException("Missing offset header"));
         if (offsetConstraint.getOffsetConstraint() == null) {
             offsetConstraint.setOffsetConstraint(consumer.endOffsets(Collections.singletonList(new TopicPartition(topic, partition))).values().stream().findFirst().orElse(1L) - 1);
         }
         if (offset > offsetConstraint.getOffsetConstraint()) {
             LOGGER.info("Maximum offset exceeded; stopping consumer...");
-            this.registry.getListenerContainer(this.container).pause();
+            Optional.ofNullable(this.registry.getListenerContainer(this.container))
+                    .ifPresent(MessageListenerContainer::pause);
         } else {
             try {
                 service.processMessage(new ServiceParameters(message.getPayload()));

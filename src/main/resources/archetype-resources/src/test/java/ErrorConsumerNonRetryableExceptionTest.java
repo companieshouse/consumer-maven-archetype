@@ -24,7 +24,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest(classes = Application.class)
@@ -34,10 +33,10 @@ import static org.mockito.Mockito.verify;
         controlledShutdown = true,
         partitions = 1
 )
-@TestPropertySource(locations = "classpath:application-test_error.yml")
+@TestPropertySource(locations = "classpath:application-test_error_negative.yml")
 @Import(TestConfig.class)
-@ActiveProfiles("test_error")
-public class ErrorConsumerNonRetryableExceptionTest {
+@ActiveProfiles("test_error_negative")
+class ErrorConsumerNonRetryableExceptionTest {
 
     @Autowired
     private EmbeddedKafkaBroker embeddedKafkaBroker;
@@ -55,7 +54,7 @@ public class ErrorConsumerNonRetryableExceptionTest {
     private Service service;
 
     @Test
-    void testRepublishToRetryTopicFromErrorTopic() throws InterruptedException {
+    void testRepublishToInvalidMessageTopicIfNonRetryableExceptionThrown() throws InterruptedException {
         //given
         embeddedKafkaBroker.consumeFromAllEmbeddedTopics(testConsumer);
         doThrow(NonRetryableException.class).when(service).processMessage(any());
@@ -72,6 +71,6 @@ public class ErrorConsumerNonRetryableExceptionTest {
         assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, "echo-echo-consumer-retry"), is(0));
         assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, "echo-echo-consumer-error"), is(1));
         assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, "echo-echo-consumer-invalid"), is(1));
-        verify(service, times(1)).processMessage(new ServiceParameters("value"));
+        verify(service).processMessage(new ServiceParameters("value"));
     }
 }

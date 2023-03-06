@@ -16,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class InvalidMessageRouterTest {
+class InvalidMessageRouterTest {
 
     private InvalidMessageRouter invalidMessageRouter;
 
@@ -26,7 +26,7 @@ public class InvalidMessageRouterTest {
     @BeforeEach
     void setup() {
         invalidMessageRouter = new InvalidMessageRouter();
-        invalidMessageRouter.configure(Map.of("message.flags", flags, "topic.invalid", "invalid"));
+        invalidMessageRouter.configure(Map.of("message.flags", flags, "invalid.message.topic", "invalid"));
     }
 
     @Test
