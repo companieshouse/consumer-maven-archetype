@@ -1,5 +1,6 @@
 package ${package};
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.aspectj.lang.JoinPoint;
@@ -60,10 +61,9 @@ public class MessageLoggingAspect {
                 .orElse(0);
         Long offset = Optional.ofNullable((Long) incomingMessage.getHeaders().get(KafkaHeaders.OFFSET))
                 .orElse(0L);
-        Map<String, Object> logData = Map.of(
+        LOGGER.debug(logMessage, new HashMap<>(Map.of(
                 "topic", topic,
                 "partition", partition,
-                "offset", offset);
-        LOGGER.debug(logMessage, logData);
+                "offset", offset)));
     }
 }
