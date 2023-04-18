@@ -18,45 +18,21 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <spring.framework.version>5.3.11</spring.framework.version>
-        <spring.boot.version>2.7.4</spring.boot.version>
-        <junit.version>5.9.1</junit.version>
-        <mockito.version>4.8.0</mockito.version>
-        <cucumber.version>7.8.1</cucumber.version>
-        <jib.version>3.0.0</jib.version>
-        <structured-logging.version>1.9.14</structured-logging.version>
-        <api-sdk-manager-java-library.version>1.0.4</api-sdk-manager-java-library.version>
-        <private-api-sdk-java.version>2.0.195</private-api-sdk-java.version>
-        <kafka-models.version>1.0.29</kafka-models.version>
+        <spring.boot.version>2.7.10</spring.boot.version>
+        <cucumber.version>7.11.2</cucumber.version>
+        <jib.version>3.3.1</jib.version>
+        <structured-logging.version>1.9.17</structured-logging.version>
+        <api-sdk-manager-java-library.version>1.0.6</api-sdk-manager-java-library.version>
+        <private-api-sdk-java.version>2.0.244</private-api-sdk-java.version>
+        <kafka-models.version>1.0.31</kafka-models.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-framework-bom</artifactId>
-                <version>${spring.framework.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring.boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.junit</groupId>
-                <artifactId>junit-bom</artifactId>
-                <version>${junit.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-bom</artifactId>
-                <version>${mockito.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -203,7 +179,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M7</version>
+                <version>3.0.0</version>
                 <configuration>
                     <skipTests>${skip.unit.tests}</skipTests>
                     <excludes>
@@ -214,7 +190,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M7</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <goals>
