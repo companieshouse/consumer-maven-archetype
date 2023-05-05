@@ -21,9 +21,4 @@ public class ConsumerAspect {
     void afterConsume(JoinPoint joinPoint) {
         latch.countDown();
     }
-
-    @After("execution(* ${package}.ErrorConsumer.consume(..))")
-    void afterErrorConsume(JoinPoint joinPoint) {
-        latch.countDown();
-    }
 }

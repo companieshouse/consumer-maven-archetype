@@ -31,8 +31,7 @@ public class Consumer {
             id = "${consumer.group_id}",
             containerFactory = "kafkaListenerContainerFactory",
             topics = "${consumer.topic}",
-            groupId = "${consumer.group_id}",
-            autoStartup = "#{!${error_consumer.enabled}}"
+            groupId = "${consumer.group_id}"
     )
     @RetryableTopic(
             attempts = "${consumer.max_attempts}",

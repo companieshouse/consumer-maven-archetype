@@ -15,7 +15,7 @@ import uk.gov.companieshouse.logging.LoggerFactory;
 
 /**
  * Logs message details before and after it has been processed by
- * the {@link Consumer main consumer} or {@link ErrorConsumer error consumer}.<br>
+ * the {@link Consumer main consumer}.<br>
  * <br>
  * Details that will be logged will include:
  * <ul>
@@ -41,16 +41,6 @@ public class MessageLoggingAspect {
 
     @After("execution(* ${package}.Consumer.consume(..))")
     void logAfterMainConsumer(JoinPoint joinPoint) {
-        logMessage(LOG_MESSAGE_PROCESSED, (Message<?>)joinPoint.getArgs()[0]);
-    }
-
-    @Before("execution(* ${package}.ErrorConsumer.consume(..))")
-    void logBeforeErrorConsumer(JoinPoint joinPoint) {
-        logMessage(LOG_MESSAGE_RECEIVED, (Message<?>)joinPoint.getArgs()[0]);
-    }
-
-    @After("execution(* ${package}.ErrorConsumer.consume(..))")
-    void logAfterErrorConsumer(JoinPoint joinPoint) {
         logMessage(LOG_MESSAGE_PROCESSED, (Message<?>)joinPoint.getArgs()[0]);
     }
 

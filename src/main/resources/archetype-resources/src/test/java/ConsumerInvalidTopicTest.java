@@ -28,7 +28,6 @@ import org.springframework.test.context.TestPropertySource;
         controlledShutdown = true,
         partitions = 1
 )
-@TestPropertySource(locations = "classpath:application-test_main_nonretryable.yml")
 @Import(TestConfig.class)
 @ActiveProfiles("test_main_nonretryable")
 class ConsumerInvalidTopicTest {
