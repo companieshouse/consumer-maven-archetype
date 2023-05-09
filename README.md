@@ -19,10 +19,8 @@ Projects generated from this archetype require the following:
 ## Overview
 
 Projects generated with consumer-maven-archetype are configured with a main consumer and an error consumer. The main
-consumer consumes messages from the main Kafka topic configured for the service by `TOPIC`. If environment variable
-`IS_ERROR_CONSUMER` is true, the application will consume messages from the error topic instead of the main topic.
-The error consumer consumes messages from topic `ERROR_TOPIC` up to the most recent offset identified when the first
-message is consumed, after which the consumer is paused and the application should be terminated.  
+consumer consumes messages from the main Kafka topic configured for the service by `TOPIC`. The archetype does not
+generate an error consumer and expects the kafka-error-consumer service to be used instead.
 
 Messages data is forwarded by consumers to a
 [Service](src/main/resources/archetype-resources/src/main/java/Service.java). The Service implementation should contain
@@ -75,10 +73,5 @@ Projects generated using consumer-maven-archetype require the following environm
 |MAX_ATTEMPTS|number|The maximum number of times messages will be processed before they are sent to the dead letter topic|5|
 |BACKOFF_DELAY|number|The delay in milliseconds between message republish attempts|100|
 |CONCURRENT_LISTENER_INSTANCES|number|The number of consumers that should participate in the consumer group. Must be equal to the number of main topic partitions.|10|
-|ERROR_GROUP_ID|string|The group ID of the error consumer|echo-error-consumer|
-|IS_ERROR_CONSUMER|boolean|If true, the main consumer will be disabled and the error consumer will be enabled at startup.|false|
-|CONCURRENT_ERROR_LISTENER_INSTANCES|number|The number of consumers that should participate in the error consumer group. Must be equal to the number of error topic partitions.|1|
 |TOPIC|string|The topic from which the main consumer will consume messages.|echo|
-|RETRY_TOPIC|string|The topic to which the error consumer will republish messages if an error occurs.|echo-echo-consumer-retry|
-|ERROR_TOPIC|string|The topic from which the error consumer will consume messages.|echo-error-consumer-error|
-|INVALID_TOPIC|string|The topic to which consumers will republish messages if any unchecked exception other than RetryableException is thrown|echo-error-consumer-invalid|
+|INVALID_MESSAGE_TOPIC|string|The topic to which consumers will republish messages if any unchecked exception other than RetryableException is thrown|echo-echo-consumer-invalid|
