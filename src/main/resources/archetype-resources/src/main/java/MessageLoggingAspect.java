@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.kafka.support.KafkaHeaders;
@@ -33,15 +34,21 @@ public class MessageLoggingAspect {
 
     private static final String LOG_MESSAGE_RECEIVED = "Processing delta";
     private static final String LOG_MESSAGE_PROCESSED = "Processed delta";
+    private static final String EXCEPTION_MESSAGE = "%s exception thrown: %s";
 
-    @Before("execution(* ${package}.Consumer.consume(..))")
+    @Before("execution(* Consumer.consume(..))")
     void logBeforeMainConsumer(JoinPoint joinPoint) {
         logMessage(LOG_MESSAGE_RECEIVED, (Message<?>)joinPoint.getArgs()[0]);
     }
 
-    @After("execution(* ${package}.Consumer.consume(..))")
+    @After("execution(* Consumer.consume(..))")
     void logAfterMainConsumer(JoinPoint joinPoint) {
         logMessage(LOG_MESSAGE_PROCESSED, (Message<?>)joinPoint.getArgs()[0]);
+    }
+
+    @AfterThrowing(pointcut = "execution(* Consumer.consume(..))", throwing = "error")
+    public void afterThrowingAdvice(JoinPoint joinPoint, Throwable error) {
+        logMessage(String.format(EXCEPTION_MESSAGE, error.getClass().getSimpleName(), error.getMessage()), (Message<?>) joinPoint.getArgs()[0]);
     }
 
     private void logMessage(String logMessage, Message<?> incomingMessage) {
