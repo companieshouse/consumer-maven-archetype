@@ -7,6 +7,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static ${package}.TestUtils.ERROR_TOPIC;
+import static ${package}.TestUtils.INVALID_TOPIC;
+import static ${package}.TestUtils.MAIN_TOPIC;
+import static ${package}.TestUtils.RETRY_TOPIC;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -28,7 +32,7 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest(classes = Application.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @EmbeddedKafka(
-        topics = {"echo", "echo-echo-consumer-retry", "echo-echo-consumer-error", "echo-echo-consumer-invalid"},
+        topics = {MAIN_TOPIC, RETRY_TOPIC, ERROR_TOPIC, INVALID_TOPIC},
         controlledShutdown = true,
         partitions = 1
 )
@@ -58,17 +62,17 @@ class ConsumerRetryableExceptionTest {
         doThrow(RetryableException.class).when(service).processMessage(any());
 
         //when
-        testProducer.send(new ProducerRecord<>("echo", 0, System.currentTimeMillis(), "key", "value"));
+        testProducer.send(new ProducerRecord<>(MAIN_TOPIC, 0, System.currentTimeMillis(), "key", "value"));
         if (!latch.await(30L, TimeUnit.SECONDS)) {
             fail("Timed out waiting for latch");
         }
 
         //then
         ConsumerRecords<?, ?> consumerRecords = KafkaTestUtils.getRecords(testConsumer, 10000L, 6);
-        assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, "echo"), is(1));
-        assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, "echo-echo-consumer-retry"), is(4));
-        assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, "echo-echo-consumer-error"), is(1));
-        assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, "echo-echo-consumer-invalid"), is(0));
+        assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, MAIN_TOPIC), is(1));
+        assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, RETRY_TOPIC), is(4));
+        assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, ERROR_TOPIC), is(1));
+        assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, INVALID_TOPIC), is(0));
         verify(service, times(5)).processMessage(new ServiceParameters("value"));
     }
 }
