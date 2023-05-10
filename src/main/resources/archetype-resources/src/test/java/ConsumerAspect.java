@@ -1,11 +1,10 @@
 package ${package};
 
+import java.util.concurrent.CountDownLatch;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.CountDownLatch;
 
 @Aspect
 @Component
@@ -17,13 +16,8 @@ public class ConsumerAspect {
         this.latch = latch;
     }
 
-    @After("execution(* ${package}.Consumer.consume(..))")
+    @After("execution(* Consumer.consume(..))")
     void afterConsume(JoinPoint joinPoint) {
-        latch.countDown();
-    }
-
-    @After("execution(* ${package}.ErrorConsumer.consume(..))")
-    void afterErrorConsume(JoinPoint joinPoint) {
         latch.countDown();
     }
 }

@@ -2,6 +2,10 @@ package ${package};
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static ${package}.TestUtils.ERROR_TOPIC;
+import static ${package}.TestUtils.INVALID_TOPIC;
+import static ${package}.TestUtils.MAIN_TOPIC;
+import static ${package}.TestUtils.RETRY_TOPIC;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -19,16 +23,14 @@ import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest(classes = Application.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @EmbeddedKafka(
-        topics = {"echo", "echo-echo-consumer-retry", "echo-echo-consumer-error", "echo-echo-consumer-invalid"},
+        topics = {MAIN_TOPIC, RETRY_TOPIC, ERROR_TOPIC, INVALID_TOPIC},
         controlledShutdown = true,
         partitions = 1
 )
-@TestPropertySource(locations = "classpath:application-test_main_nonretryable.yml")
 @Import(TestConfig.class)
 @ActiveProfiles("test_main_nonretryable")
 class ConsumerInvalidTopicTest {
@@ -48,14 +50,14 @@ class ConsumerInvalidTopicTest {
         embeddedKafkaBroker.consumeFromAllEmbeddedTopics(testConsumer);
 
         //when
-        Future<RecordMetadata> future = testProducer.send(new ProducerRecord<>("echo", 0, System.currentTimeMillis(), "key", "value"));
+        Future<RecordMetadata> future = testProducer.send(new ProducerRecord<>(MAIN_TOPIC, 0, System.currentTimeMillis(), "key", "value"));
         future.get();
         ConsumerRecords<?, ?> consumerRecords = KafkaTestUtils.getRecords(testConsumer, 10000L, 2);
 
         //then
-        assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, "echo"), is(1));
-        assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, "echo-echo-consumer-retry"), is(0));
-        assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, "echo-echo-consumer-error"), is(0));
-        assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, "echo-echo-consumer-invalid"), is(1));
+        assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, MAIN_TOPIC), is(1));
+        assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, RETRY_TOPIC), is(0));
+        assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, ERROR_TOPIC), is(0));
+        assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, INVALID_TOPIC), is(1));
     }
 }

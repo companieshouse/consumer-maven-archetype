@@ -46,7 +46,6 @@
             <directory></directory>
             <includes>
                 <include>Makefile</include>
-                <include>routes.yaml</include>
                 <include>start.sh</include>
                 <include>version</include>
             </includes>

@@ -1,5 +1,0 @@
-app_name: ${artifactId}
-group: api
-weight: 99998
-routes:
-    1: ^/${artifactId}/healthcheck
