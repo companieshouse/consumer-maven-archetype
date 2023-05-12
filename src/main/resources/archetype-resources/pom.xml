@@ -20,6 +20,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <spring.boot.version>2.7.10</spring.boot.version>
         <cucumber.version>7.11.2</cucumber.version>
+        <test-containers.version>1.18.1</test-containers.version>
         <jib.version>3.3.1</jib.version>
         <structured-logging.version>1.9.17</structured-logging.version>
         <api-sdk-manager-java-library.version>1.0.6</api-sdk-manager-java-library.version>
@@ -46,6 +47,13 @@
                 <groupId>io.cucumber</groupId>
                 <artifactId>cucumber-bom</artifactId>
                 <version>${cucumber.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${test-containers.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -131,6 +139,21 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>kafka</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
