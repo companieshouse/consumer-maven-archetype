@@ -1,5 +1,11 @@
 package ${package};
 
+import static ${package}.TestUtils.ERROR_TOPIC;
+import static ${package}.TestUtils.INVALID_TOPIC;
+import static ${package}.TestUtils.MAIN_TOPIC;
+import static ${package}.TestUtils.RETRY_TOPIC;
+
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
@@ -14,7 +20,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
 @TestConfiguration
-public class TestConfig {
+public class TestKafkaConfig {
 
     @Bean
     CountDownLatch latch(@Value("${steps}") int steps) {
@@ -23,7 +29,7 @@ public class TestConfig {
 
     @Bean
     KafkaConsumer<String, String> testConsumer(@Value("${spring.kafka.bootstrap-servers}") String bootstrapServers) {
-        return new KafkaConsumer<>(
+        KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<>(
                 Map.of(
                         ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
                         ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class,
@@ -32,6 +38,9 @@ public class TestConfig {
                         ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false",
                         ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString()),
                 new StringDeserializer(), new StringDeserializer());
+        kafkaConsumer.subscribe(List.of(MAIN_TOPIC, ERROR_TOPIC, RETRY_TOPIC,
+                INVALID_TOPIC));
+        return kafkaConsumer;
     }
 
     @Bean

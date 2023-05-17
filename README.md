@@ -65,13 +65,14 @@ The following arguments can be specified when generating projects using consumer
 
 Projects generated using consumer-maven-archetype require the following environment variables to be set:
 
-|Variable|Type|Description|Example|
-|--------|----|-----------|-------|
-|SERVER_PORT|number|The port on which the embedded web server will run|8080|
-|BOOTSTRAP_SERVER_URL|url|The URLs of the Kafka brokers that the consumers will connect to|localhost:9092|
-|GROUP_ID|string|The group ID of the main consumer|echo-consumer|
-|MAX_ATTEMPTS|number|The maximum number of times messages will be processed before they are sent to the dead letter topic|5|
-|BACKOFF_DELAY|number|The delay in milliseconds between message republish attempts|100|
-|CONCURRENT_LISTENER_INSTANCES|number|The number of consumers that should participate in the consumer group. Must be equal to the number of main topic partitions.|10|
-|TOPIC|string|The topic from which the main consumer will consume messages.|echo|
-|INVALID_MESSAGE_TOPIC|string|The topic to which consumers will republish messages if any unchecked exception other than RetryableException is thrown|echo-echo-consumer-invalid|
+| Variable                 |Type|Description|Example|
+|--------------------------|----|-----------|-------|
+| SERVER_PORT              |number|The port on which the embedded web server will run|8080|
+| BOOTSTRAP_SERVER_URL     |url|The URLs of the Kafka brokers that the consumers will connect to|localhost:9092|
+| GROUP_ID                 |string|The group ID of the main consumer|echo-consumer|
+| MAX_ATTEMPTS             |number|The maximum number of times messages will be processed before they are sent to the dead letter topic|5|
+| BACKOFF_DELAY            |number|The delay in milliseconds between message republish attempts|100|
+| CONCURRENT_LISTENER_INSTANCES |number|The number of consumers that should participate in the consumer group. Must be equal to the number of main topic partitions.|10|
+| TOPIC                    |string|The topic from which the main consumer will consume messages.|echo|
+| INVALID_MESSAGE_TOPIC    |string|The topic to which consumers will republish messages if any unchecked exception other than RetryableException is thrown|echo-echo-consumer-invalid|
+   
