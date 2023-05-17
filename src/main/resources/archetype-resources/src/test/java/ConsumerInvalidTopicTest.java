@@ -41,7 +41,8 @@ class ConsumerInvalidTopicTest extends AbstractKafkaIntegrationTest {
     void testPublishToInvalidMessageTopicIfInvalidDataDeserialised() throws InterruptedException {
 
         //when
-        testProducer.send(new ProducerRecord<>("echo", 0, System.currentTimeMillis(), "key", "value"));
+        testProducer.send(new ProducerRecord<>(MAIN_TOPIC, 0, System.currentTimeMillis(), "key",
+                "value"));
         if (!latch.await(5L, TimeUnit.SECONDS)) {
             fail("Timed out waiting for latch");
         }

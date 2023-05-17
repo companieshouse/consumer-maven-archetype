@@ -1,5 +1,10 @@
 package ${package};
 
+import static ${package}.TestUtils.ERROR_TOPIC;
+import static ${package}.TestUtils.INVALID_TOPIC;
+import static ${package}.TestUtils.MAIN_TOPIC;
+import static ${package}.TestUtils.RETRY_TOPIC;
+
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -33,10 +38,8 @@ public class TestKafkaConfig {
                         ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false",
                         ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString()),
                 new StringDeserializer(), new StringDeserializer());
-        kafkaConsumer.subscribe(List.of("echo",
-                "echo-echo-consumer-error",
-                "echo-echo-consumer-retry",
-                "echo-echo-consumer-invalid"));
+        kafkaConsumer.subscribe(List.of(MAIN_TOPIC, ERROR_TOPIC, RETRY_TOPIC,
+                INVALID_TOPIC));
         return kafkaConsumer;
     }
 
