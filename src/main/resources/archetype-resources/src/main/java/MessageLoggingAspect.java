@@ -54,7 +54,7 @@ public class MessageLoggingAspect {
     private void logMessage(String logMessage, Message<?> incomingMessage) {
         String topic = Optional.ofNullable((String) incomingMessage.getHeaders().get(KafkaHeaders.RECEIVED_TOPIC))
                 .orElse("no topic");
-        Integer partition = Optional.ofNullable((Integer) incomingMessage.getHeaders().get(KafkaHeaders.RECEIVED_PARTITION_ID))
+        Integer partition = Optional.ofNullable((Integer) incomingMessage.getHeaders().get(KafkaHeaders.RECEIVED_PARTITION))
                 .orElse(0);
         Long offset = Optional.ofNullable((Long) incomingMessage.getHeaders().get(KafkaHeaders.OFFSET))
                 .orElse(0L);

@@ -3,7 +3,7 @@ package ${package};
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
 import org.springframework.kafka.retrytopic.DltStrategy;
-import org.springframework.kafka.retrytopic.FixedDelayStrategy;
+import org.springframework.kafka.retrytopic.SameIntervalTopicReuseStrategy;
 import org.springframework.messaging.Message;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Component;
@@ -40,7 +40,7 @@ public class Consumer {
             retryTopicSuffix = "-${consumer.group_id}-retry",
             dltTopicSuffix = "-${consumer.group_id}-error",
             dltStrategy = DltStrategy.FAIL_ON_ERROR,
-            fixedDelayTopicStrategy = FixedDelayStrategy.SINGLE_TOPIC,
+            sameIntervalTopicReuseStrategy = SameIntervalTopicReuseStrategy.SINGLE_TOPIC,
             include = RetryableException.class
     )
     public void consume(Message<String> message) {
@@ -52,3 +52,4 @@ public class Consumer {
         }
     }
 }
+ 
