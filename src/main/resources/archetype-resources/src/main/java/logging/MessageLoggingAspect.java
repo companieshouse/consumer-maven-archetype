@@ -1,8 +1,5 @@
-package ${package};
+package ${package}.logging;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -13,6 +10,12 @@ import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.logging.LoggerFactory;
+import ${package}.Application;
+import ${package}.service.Consumer;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Logs message details before and after it has been processed by

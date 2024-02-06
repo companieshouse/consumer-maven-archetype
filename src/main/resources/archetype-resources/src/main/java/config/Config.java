@@ -1,4 +1,5 @@
-package ${package};
+package ${package}.config;
+
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -15,11 +16,22 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
+import uk.gov.companieshouse.service.ServiceResultStatus;
+import uk.gov.companieshouse.service.rest.response.ResponseEntityFactory;
+import ${package}.util.MessageFlags;
+import ${package}.service.InvalidMessageRouter;
+
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
 @EnableKafka
 public class Config {
+
+    @Bean
+    public ConcurrentHashMap<ServiceResultStatus, ResponseEntityFactory> responseEntityFactoryMap() {
+        return new ConcurrentHashMap<>();
+    }
 
     @Bean
     public ConsumerFactory<String, String> consumerFactory(@Value("${spring.kafka.bootstrap-servers}") String bootstrapServers) {

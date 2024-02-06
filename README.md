@@ -23,14 +23,14 @@ consumer consumes messages from the main Kafka topic configured for the service 
 generate an error consumer and expects the kafka-error-consumer service to be used instead.
 
 Messages data is forwarded by consumers to a
-[Service](src/main/resources/archetype-resources/src/main/java/Service.java). The Service implementation should contain
+[Service](src/main/resources/archetype-resources/src/main/java/service/Service.java). The Service implementation should contain
 all business logic required to process the message. If the Service throws a
-[RetryableException](src/main/resources/archetype-resources/src/main/java/RetryableException.java) then the message
+[RetryableException](src/main/resources/archetype-resources/src/main/java/exception/RetryableException.java) then the message
 will be republished to the configured retry message topic. If the maximum number of retry attempts as  determined by
 `MAX_ATTEMPTS` has elapsed then the message will be republished to the error message topic. Conversely, if the Service
-throws a [NonRetryableException](src/main/resources/archetype-resources/src/main/java/NonRetryableException.java), 
+throws a [NonRetryableException](src/main/resources/archetype-resources/src/main/java/exception/NonRetryableException.java), 
 the message will be republished to the configured invalid message topic. The
-[default Service implementation](src/main/resources/archetype-resources/src/main/java/NullService.java) arbitrarily
+[default Service implementation](src/main/resources/archetype-resources/src/main/java/service/NullService.java) arbitrarily
 throws a NonRetryableException whenever a message is processed.
 
 ## Usage

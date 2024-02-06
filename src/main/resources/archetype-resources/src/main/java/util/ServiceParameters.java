@@ -1,4 +1,6 @@
-package ${package};
+package ${package}.util;
+
+import ${package}.service.Service;
 
 import java.util.Objects;
 

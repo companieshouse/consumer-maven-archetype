@@ -1,4 +1,4 @@
-package ${package};
+package ${package}.util;
 
 import javax.annotation.PreDestroy;
 import org.springframework.stereotype.Component;

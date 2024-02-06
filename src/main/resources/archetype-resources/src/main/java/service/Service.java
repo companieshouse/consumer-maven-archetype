@@ -1,5 +1,6 @@
-package ${package};
+package ${package}.service;
 
+import ${package}.util.ServiceParameters;
 /**
  * Processes an incoming message.
  */

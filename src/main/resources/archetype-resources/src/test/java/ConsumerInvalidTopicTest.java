@@ -46,8 +46,7 @@ class ConsumerInvalidTopicTest extends AbstractKafkaIntegrationTest {
         if (!latch.await(5L, TimeUnit.SECONDS)) {
             fail("Timed out waiting for latch");
         }
-
-        ConsumerRecords<?, ?> consumerRecords = KafkaTestUtils.getRecords(testConsumer);
+        ConsumerRecords<?, ?> consumerRecords = KafkaTestUtils.getRecords(testConsumer, Duration.ofSeconds(1), 2);
 
         //then
         assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, MAIN_TOPIC)).isEqualTo(1);
