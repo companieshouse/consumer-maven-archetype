@@ -2,13 +2,16 @@
 
 Generates template projects for services that consume messages from Kafka.
 
+### Note that this repo has been upgraded to Java 21.For the Java 11 compatible version please use the main-11 branch.
+
+
 ## Requirements
 
-This project has been tested with Apache Maven 3.6.3.
+This project has been tested with Apache Maven 3.9.2.
 
 Projects generated from this archetype require the following:
 
-* Java 11
+* Java 21
 * Apache Maven
 * The following dependencies:
   * uk.gov.companieshouse:structured-logging
