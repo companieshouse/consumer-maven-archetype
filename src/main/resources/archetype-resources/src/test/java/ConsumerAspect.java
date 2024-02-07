@@ -16,7 +16,7 @@ public class ConsumerAspect {
         this.latch = latch;
     }
 
-    @After("execution(* Consumer.consume(..))")
+    @After("execution(* ${package}.service.Consumer.consume(..))")
     void afterConsume(JoinPoint joinPoint) {
         latch.countDown();
     }

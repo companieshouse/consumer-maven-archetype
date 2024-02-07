@@ -39,17 +39,17 @@ public class MessageLoggingAspect {
     private static final String LOG_MESSAGE_PROCESSED = "Processed delta";
     private static final String EXCEPTION_MESSAGE = "%s exception thrown: %s";
 
-    @Before("execution(* Consumer.consume(..))")
+    @Before("execution(* ${package}.service.Consumer.consume(..))")
     void logBeforeMainConsumer(JoinPoint joinPoint) {
         logMessage(LOG_MESSAGE_RECEIVED, (Message<?>)joinPoint.getArgs()[0]);
     }
 
-    @After("execution(* Consumer.consume(..))")
+    @After("execution(* ${package}.service.Consumer.consume(..))")
     void logAfterMainConsumer(JoinPoint joinPoint) {
         logMessage(LOG_MESSAGE_PROCESSED, (Message<?>)joinPoint.getArgs()[0]);
     }
 
-    @AfterThrowing(pointcut = "execution(* Consumer.consume(..))", throwing = "error")
+    @AfterThrowing(pointcut = "execution(* ${package}.service.Consumer.consume(..))", throwing = "error")
     public void afterThrowingAdvice(JoinPoint joinPoint, Throwable error) {
         logMessage(String.format(EXCEPTION_MESSAGE, error.getClass().getSimpleName(), error.getMessage()), (Message<?>) joinPoint.getArgs()[0]);
     }
