@@ -1,6 +1,8 @@
-package ${package};
+package ${package}.service;
 
 import org.springframework.stereotype.Component;
+import ${package}.util.ServiceParameters;
+import ${package}.exception.NonRetryableException;
 
 /**
  * The default service.

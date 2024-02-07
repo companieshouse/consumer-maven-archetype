@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ${package}.service.InvalidMessageRouter;
+import ${package}.util.MessageFlags;
 
 @ExtendWith(MockitoExtension.class)
 class InvalidMessageRouterTest {

@@ -24,6 +24,9 @@ import org.springframework.test.context.ActiveProfiles;
 import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import ${package}.exception.NonRetryableException;
+import ${package}.service.Service;
+import ${package}.util.ServiceParameters;
 
 @SpringBootTest
 @ActiveProfiles("test_main_nonretryable")
@@ -56,7 +59,7 @@ class ConsumerNonRetryableExceptionTest extends AbstractKafkaIntegrationTest {
         if (!latch.await(5L, TimeUnit.SECONDS)) {
             fail("Timed out waiting for latch");
         }
-        ConsumerRecords<?, ?> consumerRecords = KafkaTestUtils.getRecords(testConsumer, 10000L, 2);
+        ConsumerRecords<?, ?> consumerRecords = KafkaTestUtils.getRecords(testConsumer, Duration.ofSeconds(10), 2);
 
         //then
         assertThat(TestUtils.noOfRecordsForTopic(consumerRecords, MAIN_TOPIC)).isEqualTo(1);
